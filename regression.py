@@ -19,16 +19,16 @@ def predict_price(area) -> float:
     # YOUR IMPLEMENTATION HERE
     from scipy.optimize import curve_fit
 
-    def f(x, w0, w1, w2):
-        return w1 * x + w2 * x * x + w0  # defining features as x, and x*x
+    def f(x, w0, w1):
+        return w1 * x + w0
 
     data = response.text.split("\n")
     area_train = numpy.array(list(map(float, data[0].split(",")[1:])))
 
     price_train = numpy.array(list(map(float, data[1].split(",")[1:])))
 
-    w, _ = curve_fit(f, areas, prices)
-    price = f(area, w[0], w[1], w[2])
+    w, _ = curve_fit(f, area_train, price_train)
+    price = f(area, w[0], w[1])
 
     return price
 
